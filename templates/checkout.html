@@ -1,0 +1,25 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block title %}{{product.name}}{% endblock title %}
+{% block additional_css %} <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}">
+{% endblock additional_css %}
+{% block body %}
+<form method="post" action="{% url 'checkout' item.id %}">
+    {% csrf_token %}
+    <label for="first_name">Product Name:</label>
+    <input type="text" id="productName" name="productName" value='{{item.product.name}}' readonly><br>
+    <label for="first_name">Full Name:</label>
+    <input type="text" id="name" name="name" value={{request.user}} required readonly><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" required></textarea><br>
+    <label for="p_number">phone number:</label>
+    <textarea id="phone_number" name="phone_number" required></textarea><br>
+    <label for="quantity">Quantity:</label>
+    <input id="quantity" name="quantity" value={{item.quantity}} readonly><br>
+    <label for="price">Price:</label>
+    <input id="price" name="price" value={{item.price}} readonly><br>
+    <button type="submit">Submit</button>
+</form>
+{% endblock body %}

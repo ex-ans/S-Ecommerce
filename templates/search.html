@@ -1,0 +1,25 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block title %}search{% endblock title %}
+{% block additional_css %} <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock additional_css %}
+{% block body %}
+<div class="product-list">
+    <div class="product-row">
+        <h1>All Products</h1>
+        {% if allproducts %}
+    <div class="product-list">
+        {% for product in allproducts %}
+            <div class="card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width:100%">
+                <h1>{{ product.name }}</h1>
+                <p class="price">${{ product.price }}</p>
+                <p>{{ product.description | truncatechars:100 }}</p>
+                <p><a href="/productpage/{{product.product_id}}" >View Product</a></p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No products available.</p>
+{% endif %}
+{% endblock body %}

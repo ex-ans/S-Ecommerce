@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    {% block additional_css %}{% endblock additional_css %} 
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <a href="#"><img src="{% static 'img/back.png' %}" alt="ExProduction"></a>
+    </div>
+    <form action="/search" method="GET" class="menu-form">
+        <ul class="menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/u_orders">Orders</a></li>
+            <li><a href="/cart">Cart</a></li>
+        </ul>
+        <input type="text" name="search" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <div class="user-profile">
+        <div class="profile-icon">
+            <img src="{% static 'img/one.jpg' %}" alt="User Icon">
+        </div>
+        <div class="dropdown-content">
+            {% if user.is_anonymous %}
+            <a href="/signin">SignIn</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a href="#">{{request.user}}</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="/logout_user">Logout</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+{% if messages %}
+{% for message in messages %}
+<div class="message-alert {{ message.tags }}">
+    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+    <div class="message-content">
+        {{ message }}
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% block body %}{% endblock body %}
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block title %}{{product.name}}{% endblock title %}
+{% block additional_css %} <link rel="stylesheet" type="text/css" href="{% static 'css/user_orders.css' %}">
+{% endblock additional_css %}
+{% block body %}
+<h1>User Ordered Item List</h1>
+<div class="order-list">
+  {% for order in orders %}
+    <div class="order">
+      <h2>Order {{ order.id }}</h2>
+      <ul>
+          <li>{{ order.cart.product.name }} - Quantity: {{ order.cart.quantity }} - Price:{{order.total_price}} </br> 
+            {% if order.completed == False %}
+            <a>Status : Pending</a>
+            {% else %}
+            <a>Status : Shipped</a></li>
+            {% endif %}
+
+            {% comment %} <a href={% url 'deleteorder' order.id %}>Delete</a> {% endcomment %}
+      </ul>
+    </div>
+  {% empty %}
+    <p>No orders found.</p>
+  {% endfor %}
+</div>
+{% endblock body %}

@@ -1,0 +1,32 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block title %}{{product.name}}{% endblock title %}
+{% block additional_css %} <link rel="stylesheet" type="text/css" href="{% static 'css/productpage.css' %}">
+{% endblock additional_css %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+        <div class="col-md-6 product-details">
+            <h1>{{ product.name }}</h1>
+            <p><strong>Description:</strong> {{ product.description }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            {% if user.is_authenticated %}
+            <form method="post" action="/productpage/{{product.product_id}}">
+                {% csrf_token %}
+                <div class="qn">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="0" min="0">
+                </div>
+                <button type="submit">Add to Cart</button>
+            </form>
+            {% else %}
+              <p>First SignIn your self as a user for using ex production</p>
+              <a href="/signin">Signin</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
